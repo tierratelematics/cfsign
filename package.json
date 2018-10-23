@@ -1,0 +1,40 @@
+{
+  "name": "cfsign",
+  "description": "CloudFront authentication via signed URLs or cookies",
+  "keywords": [
+    "CloudFront",
+    "AWS",
+    "signature",
+    "typescript",
+    "nodejs"
+  ],
+  "author": "Andrea Ratto",
+  "version": "0.0.0",
+  "license": "Apache-2.0",
+  "repository": "github:tierratelematics/cfsign",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "files": [
+    "lib/*"
+  ],
+  "scripts": {
+    "lint": "tslint --project tsconfig.json -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
+    "prebuild": "rimraf lib",
+    "build": "tsc",
+    "test": "mocha --require ts-node/register test/**/*.spec.ts"
+  },
+  "devDependencies": {
+    "@types/node": "8.10.25",
+    "@types/mocha": "5.2.5",
+    "@types/expect.js": "0.3.29",
+    "expect.js": "0.3.1",
+    "mocha": "5.2.0",
+    "rimraf": "2.6.2",
+    "ts-node": "7.0.1",
+    "tslint": "5.11.0",
+    "typescript": "3.1.3"
+  },
+  "engines": {
+    "node": ">=8.10.0"
+  }
+}

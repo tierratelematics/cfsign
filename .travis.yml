@@ -1,0 +1,20 @@
+language: node_js
+node_js:
+  - '8'
+
+install:
+  - npm install
+
+script:
+  - npm test
+  - npm run build
+
+deploy:
+  skip_cleanup: true
+  provider: npm
+  email: sysadmin@tierratelematics.com
+  api_key:
+    secure: k2zzGZ1pybNtW+jtI4SjkdsIuJJf5ibo+iPAvNi7TMDyQ6z1pozFF9ISy4REjP9dc3T7bi8tU7JtMTIn/77B+D4iFxuZCgdmkexFr1lX9ogHV51NBSiIQ2B4zN7saszEaIYfZO6to34b//4XvO+m2Nx85Ygsh1z/+Q2PW6hfXZaYN7NG0Q3xAL5sXZAdde8ibw7ob5TzXJ2i4dRzfdYWQgAHzDjTicWTrmV5kLLnPmz3uiJnj+IiAbCjBcObCRJRZHg3czcSZWoeKOM26zCYxVTbvG17rwcWsVq+s1MUQA6Lt9Qe5wSeyBpyRBUbSpn4+ore+JZuISiFISTWWZK8R1ja/xnFUTil9/YCTtK6q4IY4KomQOAqnOnSqpmanAzCTTjj5FYfLZXOtBbJuotjbAFn/zhlxAv48ngo8UwvHuY6wzNDkY4cW946asajFsNf3u2a6JliN0C5itpeYvLIG8xlJAwx3Voh9b0NEUB++pvqgS1OX4H2GSkKcaRsVp627xdhQ23CExc2t+4Ra0nBn3Pxa4RqDBlgaNcQ9mgT/cyViMMDiArKKDuggRWDZqI0WRXoQxvbXPeLHK36867Py91KmHGc4CNtAYk1UHU47EzwXgjSJs3zPuJCQdhpirvCXAwrMk4g0iJZ81vFioIwPsc/049f1R+Cld9dcGhe9V0=
+  on:
+    repo: tierratelematics/cfsign
+    tags: true
