@@ -3,12 +3,40 @@ import { createSign } from "crypto";
 import { dateToEpochTime, Policy } from "./policy";
 import { encode } from "./safeBase64";
 
+/**
+ * Key configuration for a Signer
+ */
 export interface KeyPair {
     id: string;
     privateKeyPem: string;
 }
 
-export abstract class AbstractSignature {
+/**
+ * A CloudFront signature consisting of a few parameters to be utilized in
+ * query string or as cookies.
+ */
+export interface Signature {
+    /**
+     * Adds signature paramters to a URL.
+     * @param url - a CloudFront URL
+     * @returns the URL with the signature parameters added
+     */
+    addToUrl(url: string): string;
+
+    /**
+     * @returns the query string paramters as a dictionary object
+     */
+    toQueryStringParams(): {[k: string]: string};
+
+    /**
+     * Gets the cookies for the signature. Note that you might want to set
+     * path, expiration and other cookie attributes when setting them.
+     * @returns the cookies as a dictionary object
+     */
+    toCookies(): {[k: string]: string};
+}
+
+abstract class AbstractSignature implements Signature {
 
     constructor(private readonly keyPairId: string, private readonly signature: string) {
     }
@@ -39,7 +67,7 @@ export abstract class AbstractSignature {
     }
 }
 
-export class CannedPolicySignature extends AbstractSignature {
+class CannedPolicySignature extends AbstractSignature {
 
     constructor(keyPairId: string, signature: string, private readonly expires: number) {
         super(keyPairId, signature);
@@ -52,7 +80,7 @@ export class CannedPolicySignature extends AbstractSignature {
     }
 }
 
-export class CustomPolicySignature extends AbstractSignature {
+class CustomPolicySignature extends AbstractSignature {
 
     constructor(keyPairId: string, signature: string, private readonly safePolicyStr: string) {
         super(keyPairId, signature);
@@ -65,11 +93,20 @@ export class CustomPolicySignature extends AbstractSignature {
     }
 }
 
+/**
+ * Entry point for signing CloudFront policies.
+ */
 export class Signer {
 
     constructor(private readonly keyPair: KeyPair) {
     }
 
+    /**
+     * Simple signature for a single URL using a canned policy.
+     * @param url - The CloudFront URL
+     * @param expiration - Date of validity end
+     * @returns The signed url
+     */
     public signUrl(url: string, expiration: Date): string {
         const expires = dateToEpochTime(expiration);
         const cannedPolicy: Policy = {
@@ -86,7 +123,13 @@ export class Signer {
         return cannedSignature.addToUrl(url);
     }
 
-    public sign(policy: Policy): CustomPolicySignature {
+    /**
+     * Sign arbitrary complex policies for wildcard resources or conditions
+     * other than expiration.
+     * @param policy - A custom policy
+     * @returns a Signature for the policy
+     */
+    public sign(policy: Policy): Signature {
         const policyStr = JSON.stringify(policy);
         const signature = this.signature(policyStr);
         return new CustomPolicySignature(this.keyPair.id, signature, encode(policyStr));

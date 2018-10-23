@@ -1,7 +1,7 @@
 import expect = require("expect.js");
 
 import { Policy } from "../src/policy";
-import { CustomPolicySignature, Signer } from "../src/signer";
+import { Signature, Signer } from "../src/signer";
 
 describe("Given a Signer", () => {
     const privateKey = `-----BEGIN RSA PRIVATE KEY-----
@@ -38,7 +38,7 @@ jXJcKKKT1j5L3UPS7ioFGsgjOdW7OQXhNQhlu5WZSwrA
     });
 
     context("When signing a custom policy", () => {
-        let signature: CustomPolicySignature;
+        let signature: Signature;
         const policy: Policy = {
             Statement: [{
                 Condition: {
