@@ -41,12 +41,12 @@ jXJcKKKT1j5L3UPS7ioFGsgjOdW7OQXhNQhlu5WZSwrA
         let signature: CustomPolicySignature;
         const policy: Policy = {
             Statement: [{
-                Resource: "http://test.com/f/*",
                 Condition: {
-                    DateLessThan: { "AWS:EpochTime": 1 },
                     DateGreaterThan: { "AWS:EpochTime": 0 },
+                    DateLessThan: { "AWS:EpochTime": 1 },
                     IpAddress: { "AWS:SourceIp": "1.1.1.0/24" }
-                }
+                },
+                Resource: "http://test.com/f/*"
             }]
         };
 
