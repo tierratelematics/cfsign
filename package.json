@@ -9,7 +9,7 @@
     "nodejs"
   ],
   "author": "Andrea Ratto",
-  "version": "0.0.0",
+  "version": "1.0.3",
   "license": "Apache-2.0",
   "repository": "github:tierratelematics/cfsign",
   "main": "lib/index.js",
