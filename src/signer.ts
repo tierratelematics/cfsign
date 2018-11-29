@@ -132,7 +132,8 @@ export class Signer {
     public sign(policy: Policy): Signature {
         const policyStr = JSON.stringify(policy);
         const signature = this.signature(policyStr);
-        return new CustomPolicySignature(this.keyPair.id, signature, encode(policyStr));
+        const safePolicyStr = encode(Buffer.from(policyStr).toString("base64"));
+        return new CustomPolicySignature(this.keyPair.id, signature, safePolicyStr);
     }
 
     private signature(str: string): string {
